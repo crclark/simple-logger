@@ -3,7 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Control.Logger.Simple
     ( withGlobalLogging, LogConfig(..)
-    , setLogLevel, LogLevel(..)
+    , setLogLevel, getLogLevel, LogLevel(..)
     , logTrace, logDebug, logInfo, logNote, logWarn, logError
     , logFail
     , pureTrace, pureDebug, pureInfo, pureNote, pureWarn, pureError
@@ -172,6 +172,9 @@ logLevel = unsafePerformIO $ newIORef LogDebug
 -- displayed.  It defaults to 'LogDebug'.
 setLogLevel :: LogLevel -> IO ()
 setLogLevel = atomicWriteIORef logLevel
+
+getLogLevel :: IO LogLevel
+getLogLevel = readIORef logLevel
 
 -- | Setup global logging. Wrap your 'main' function with this.
 withGlobalLogging :: LogConfig -> IO a -> IO a
