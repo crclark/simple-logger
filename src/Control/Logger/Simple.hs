@@ -84,12 +84,6 @@ logWarn = doLogCs LogWarn ?callStack . toLogStr
 logError :: (?callStack :: GHC.CallStack) => MonadIO m => T.Text -> m ()
 logError = doLogCs LogError ?callStack . toLogStr
 
--- | Log on error level and call 'fail'
-logFail :: (?callStack :: GHC.CallStack, MonadFail m) => MonadIO m => T.Text -> m a
-logFail t =
-    do doLogCs LogError ?callStack (toLogStr t)
-       fail (T.unpack t)
-
 -- | Log with 'LogTrace' level when the given expression is evaluated
 pureTrace :: (?callStack :: GHC.CallStack) => T.Text -> a -> a
 pureTrace = doPureLog LogTrace ?callStack
