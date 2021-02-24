@@ -5,7 +5,6 @@ module Control.Logger.Simple
     ( withGlobalLogging, LogConfig(..)
     , setLogLevel, getLogLevel, printLoggerStatus, LogLevel(..)
     , logTrace, logDebug, logInfo, logNote, logWarn, logError
-    , logFail
     , pureTrace, pureDebug, pureInfo, pureNote, pureWarn, pureError
     , showText, (<>)
     , monadLoggerAdapter, runSimpleLoggingT
