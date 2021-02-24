@@ -3,7 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Control.Logger.Simple
     ( withGlobalLogging, LogConfig(..)
-    , setLogLevel, getLogLevel, LogLevel(..)
+    , setLogLevel, getLogLevel, printLoggerStatus, LogLevel(..)
     , logTrace, logDebug, logInfo, logNote, logWarn, logError
     , logFail
     , pureTrace, pureDebug, pureInfo, pureNote, pureWarn, pureError
@@ -16,6 +16,7 @@ import Control.Exception
 import Control.Monad
 import Control.Monad.Trans
 import Data.IORef
+import Data.Maybe (isJust)
 import System.IO.Unsafe
 import System.Log.FastLogger
 import qualified Data.Text as T
@@ -33,6 +34,13 @@ data Loggers
     , l_stderr :: !(Maybe (FastLogger, IO ()))
     , l_timeCache :: !(IO FormattedTime)
     }
+
+printLoggerStatus :: IO ()
+printLoggerStatus = do
+  lgrs <- readIORef loggers
+  let fileLoggerPresent = isJust $ l_file lgrs
+  let stderrLoggerPresent = isJust $ l_stderr lgrs
+  putStrLn $ "fileLoggerPresent: " ++ show fileLoggerPresent ++ " stderrLoggerPresent: " ++ show stderrLoggerPresent
 
 data LogConfig
     = LogConfig
