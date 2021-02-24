@@ -127,8 +127,12 @@ doLog ll loc txt =
                <> "] "
                <> toLogStr txt
                <> "\n"
-       forM_ (l_stderr lgrs) $ \(writeLog, _) -> writeLog (renderColor <> msg <> resetColor)
-       forM_ (l_file lgrs) $ \(writeLog, _) -> writeLog msg
+       forM_ (l_stderr lgrs) $ \(writeLog, _) -> do
+         putStrLn $ "writing to stderr logger: " ++ show msg
+         writeLog (renderColor <> msg <> resetColor)
+       forM_ (l_file lgrs) $ \(writeLog, _) -> do
+         putStrLn $ "writing to file logger: " ++ show msg
+         writeLog msg
     where
         renderLevel =
             case ll of
